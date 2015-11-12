@@ -2,9 +2,21 @@
   "name": "atmotool",
   "version": "0.0.1",
   "private": true,
+  "main": "./app.js",
   "scripts": {
     "start": "node app.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mexanoid/atmotool.git"
+  },
+  "keywords": [
+    "netatmo",
+    "weather",
+    "api"
+  ],
+  "author": "Constantine Tikus",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.14.1",
     "connect-mongo": "^0.8.2",
@@ -15,8 +27,6 @@
     "mongoose": "^4.2.5",
     "nconf": "^0.8.2",
     "node-uuid": "^1.4.3",
-    "promise": "^7.0.4",
-    "string": "^3.3.1",
-    "validator": "^4.2.1"
+    "promise": "^7.0.4"
   }
 }
