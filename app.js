@@ -20,14 +20,22 @@
     var user = new User();
     user.Initialize();
 
-    var userModel = user.Model();
+    var testuser = {
+        username:"testuser1",
+        email: "email1",
+        authToken: {
+            access_token: "access_token",
+            refresh_token: "refresh_token",
+            scope: "scope",
+            expires_in: 0,
+            expire_in: 0
+        }
+    };
 
-    var newUser = new userModel({username: "asd", email: "asd@sad"});
+    var user = user.Model()(testuser);
 
-    newUser.safe(function () {
-        log.info('created base admin user');
+    user.save(function (err, user, numAffected) {
+        console.log(numAffected);
     });
-
-    console.log("huyak");
 
 })();

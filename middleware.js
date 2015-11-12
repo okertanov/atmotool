@@ -30,8 +30,8 @@
             },
             Mongoose: function () {
                 mongoose.connect(
-                    this._server.Config().Data().get('db:connection') + '/' + this._server.Config().Data().get('db:name'),
-                    this._server.Config().Data().get('db:options')
+                    this._server.Config().get('db:connection') + '/' + this._server.Config().get('db:name'),
+                    this._server.Config().get('db:options')
                 );
                 return mongoose;
             }

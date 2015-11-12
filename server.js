@@ -7,9 +7,8 @@
 
     var path = require('path');
 
-    var config = require('./config');
+    var config = require('./config/config');
     var middleware = require('./middleware');
-    var logger = require('./services/logger');
 
     var Server = function () {
         return {
@@ -17,10 +16,8 @@
             _app: express(),
 
             _config: new config(),
-            _logger: new logger(),
 
             Initialize: function () {
-                this._logger.Initialize();
                 this._config.Initialize();
             },
 
@@ -34,17 +31,14 @@
                     function () {
                         var bind_host = that._server.address().address;
                         var bind_port = that._server.address().port;
-                        that._logger.Log('App listening at %s:%s', bind_host, bind_port);
+                        console.log('App listening at %s:%s', bind_host, bind_port);
                     });
             },
             App: function () {
                 return this._app;
             },
             Config: function () {
-                return this._config;
-            },
-            Logger: function () {
-                return this._logger;
+                return this._config.Data();
             }
 
         };

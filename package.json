@@ -6,21 +6,17 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "async": "^1.5.0",
     "body-parser": "^1.14.1",
     "connect-mongo": "^0.8.2",
     "cookie-parser": "^1.4.0",
-    "cookieparser": "^0.1.0",
     "express": "^4.13.3",
     "handlebars": "^4.0.4",
-    "jsonfile": "^2.2.3",
     "mongodb": "^2.0.48",
     "mongoose": "^4.2.5",
     "nconf": "^0.8.2",
     "node-uuid": "^1.4.3",
     "promise": "^7.0.4",
     "string": "^3.3.1",
-    "util": "^0.10.3",
     "validator": "^4.2.1"
   }
 }
