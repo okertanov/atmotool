@@ -12,7 +12,7 @@
     middleware.Initialize(server);
     middleware.Mongoose();
 
-    var Routes = require('./routes');
+    var Routes = require('./routes/index');
     var routes = new Routes();
     routes.Initialize(server);
 

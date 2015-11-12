@@ -1,4 +1,6 @@
 # Created by https://www.gitignore.io/api/node
+###IDE###
+.idea
 
 ### Node ###
 # Logs
@@ -30,4 +32,7 @@ build/Release
 # https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
 node_modules
 
-.idea
+bower_components
+wwwroot/components
+test
+tests

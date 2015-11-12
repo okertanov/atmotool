@@ -1,0 +1,26 @@
+{
+  "name": "atmotool",
+  "description": "atmotool",
+  "main": "wwwroot/index.html",
+  "authors": [
+    "Constantine Tikus"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "netatmo",
+    "weather",
+    "api"
+  ],
+  "homepage": "http://localhost:8080/",
+  "moduleType": [
+    "globals"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "wwwroot/components",
+    "test",
+    "tests"
+  ]
+}
