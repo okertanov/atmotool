@@ -7,44 +7,47 @@
     var mongoose = require('mongoose');
 
     var User = function () {
-        return {
-            _schema: null,
-            _model: null,
 
-            Initialize: function () {
-                console.log('user object initialization.');
+        console.log('User object initialization.');
 
-                this._schema = mongoose.Schema();
-
-                var userSchema = {
-                    "username": {
-                        "type": "string",
-                        "unique": "true",
-                        "required": "true"
-                    },
-                    "email": {
-                        "type": "string",
-                        "unique": "true",
-                        "required": "true"
-                    },
-                    "authToken": {
-                        "access_token": "string",
-                        "refresh_token": "string",
-                        "scope": "string",
-                        "expires_in": "number",
-                        "expire_in": "number"
-                    }
-                };
-
-                this._schema.add(userSchema);
-                this._model = mongoose.model('user', this._schema);
-
+        var userSchema = {
+            "username": {
+                "type": "string",
+                "unique": "true",
+                "required": "true"
             },
+            "email": {
+                "type": "string",
+                "unique": "true",
+                "required": "true"
+            },
+            "authToken": {
+                "access_token": "string",
+                "refresh_token": "string",
+                "scope": "string",
+                "expires_in": "number",
+                "expire_in": "number"
+            }
+        };
+
+        var schema = mongoose.Schema();
+        schema.add(userSchema);
+
+        var model = mongoose.model('user', schema);
+
+        return {
+            _schema: schema,
+            _model: model,
+            _userSchema: userSchema,
+
             Schema: function () {
                 return this._schema;
             },
             Model: function () {
                 return this._model;
+            },
+            Instance: function (obj) {
+                return this._model(obj);
             }
         };
     };
