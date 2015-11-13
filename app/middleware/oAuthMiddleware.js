@@ -14,10 +14,11 @@
       Initialize: function (server) {
         this._server = server;
       },
+
       AllRequests: function () {
         var that = this;
         return function (req, res, next) {
-          that._server.Log('Auth: ', req.path, req.ip);
+          console.log('Auth: ', req.path, req.ip);
           next();
         }
       },
@@ -25,7 +26,7 @@
       OnError: function () {
         var that = this;
         return function (err, req, res, next) {
-          that._server.Log('Unexpected auth error with request: ', req.path, err, err.stack);
+          console.log('Unexpected auth error with request: ', req.path, err, err.stack);
           res.sendStatus(500);
         }
       }
