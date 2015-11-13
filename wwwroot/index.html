@@ -1,10 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Weather</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>atmotool</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="components/jquery-ui/themes/smoothness/jquery-ui.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="components/jquery/dist/jquery.js"></script>
+    <script src="components/jquery-ui/ui/core.js"></script>
+    <script src="components/jquery-ui/ui/widget.js"></script>
+    <script src="components/jquery-ui/ui/accordion.js"></script>
+    <script src="client-app.js"></script>
 </head>
 <body>
+
+<div class="container">
+
+    <form class="form-horizontal" action="/generate" method="post">
+        <fieldset>
+            <legend>Netatmo web client</legend>
+
+            <div class="row">
+                <h3 class="ui-form-header">
+                    <img src="login-lock.png"/>
+                    Login please
+                </h3>
+            </div>
+        </fieldset>
+    </form>
+
+</div>
+
 
 </body>
 </html>

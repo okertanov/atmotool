@@ -3,7 +3,7 @@
   "host": "127.0.0.1",
   "logger": true,
   "db": {
-    "connection": "mongodb://localhost",
+    "connectionString": "mongodb://localhost/atmotool",
     "name": "atmotool",
     "options": {
       "server": {

@@ -1,0 +1,48 @@
+html {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+body {
+    width: 100% !important;
+    height: 100% !important;
+    background-color: #F0F0F0;
+    /*background: #4F4F3F url(noisy.png);*/
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+form legend {
+    text-align: center;
+    margin-bottom: 2px !important;
+}
+
+form label span img {
+    margin-top: -14px;
+    width: 10px;
+    height: 10px;
+
+    -webkit-transition: -webkit-transform .5s ease-in-out;
+    transition: transform .5s ease-in-out;
+}
+
+form label span img:hover {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
+form label sup {
+    font-size: 80%;
+    color: #FFAF2F;
+}
+
+.strikeout {
+    text-decoration: line-through;
+}
+
+.ui-form-header {
+}
+
+.ui-form-header img {
+    margin-top: -4px;
+    margin-right: 6px;
+}

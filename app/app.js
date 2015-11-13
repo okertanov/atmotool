@@ -1,19 +1,11 @@
 (function () {
 
-    "use strict";
+  "use strict";
 
-    var Server = require('./server');
-    var server = new Server();
-    server.Initialize();
-    server.Listen();
+  var Server = require('./server');
 
-    var Middleware = require('./middleware');
-    var middleware = new Middleware();
-    middleware.Initialize(server);
-    middleware.Mongoose();
-
-    var Routes = require('./routes');
-    var routes = new Routes();
-    routes.Initialize(server);
+  var server = new Server();
+  server.Initialize();
+  server.Start();
 
 })();

@@ -1,26 +1,26 @@
 (function () {
 
-    "use strict";
+  "use strict";
 
-    var nconf = require('nconf');
-    var path = require('path');
+  var nconf = require('nconf');
+  var path = require('path');
 
-    var Config = function () {
+  var Config = function () {
 
-        return {
-            Initialize: function () {
-                console.log('Config initialization.');
-                nconf.argv()
-                    .env()
-                    .file({file: path.join(__dirname, 'config.json')});
-            },
-            Data: function () {
-                return nconf;
-            }
+    return {
+      Initialize: function () {
+        console.log('Config initialization.');
+        nconf.argv()
+            .env()
+            .file({file: path.join(__dirname, 'config.json')});
+      },
+      Data: function () {
+        return nconf;
+      }
 
-        };
     };
+  };
 
-    module.exports = Config;
+  module.exports = Config;
 
 })();
