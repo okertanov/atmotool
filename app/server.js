@@ -22,7 +22,6 @@
       },
       Start: function () {
 
-
         var that = this;
         this._server = this._app
             .listen(
