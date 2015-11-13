@@ -4,7 +4,7 @@
 
   var mongoose = require('mongoose');
 
-  var MongooseMiddleware = function () {
+  var MongooseManager = function () {
     console.log('Mongoose middleware initialization.');
     return {
       _server: null,
@@ -23,6 +23,6 @@
     };
   };
 
-  module.exports = MongooseMiddleware;
+  module.exports = MongooseManager;
 
 })();
