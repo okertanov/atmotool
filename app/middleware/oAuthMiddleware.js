@@ -23,6 +23,13 @@
         }
       },
 
+      SignIn: function () {
+        var that = this;
+        return function (req, res, next) {
+          console.log(JSON.stringify(req.body));
+        }
+      },
+
       OnError: function () {
         var that = this;
         return function (err, req, res, next) {

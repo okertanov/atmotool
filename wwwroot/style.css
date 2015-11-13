@@ -47,18 +47,14 @@ form label sup {
     margin-right: 6px;
 }
 
-
-
 /*Sign in form*/
-.form-signin
-{
+.form-signin {
     max-width: 330px;
     padding: 15px;
     margin: 0 auto;
 }
 
-.form-signin .form-control
-{
+.form-signin .form-control {
     position: relative;
     font-size: 16px;
     height: auto;
@@ -67,24 +63,24 @@ form label sup {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
-.form-signin .form-control:focus
-{
+
+.form-signin .form-control:focus {
     z-index: 2;
 }
-.form-signin input[type="text"]
-{
+
+.form-signin input[type="text"] {
     margin-bottom: -1px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
-.form-signin input[type="password"]
-{
+
+.form-signin input[type="password"] {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
-.account-wall
-{
+
+.account-wall {
     margin-top: 20px;
     padding: 40px 0px 20px 0px;
     background-color: #f7f7f7;
@@ -92,15 +88,15 @@ form label sup {
     -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
 }
-.login-title
-{
+
+.login-title {
     color: #555;
     font-size: 30px;
     font-weight: 400;
     display: block;
 }
-.profile-img
-{
+
+.profile-img {
     width: 96px;
     height: 96px;
     margin: 0 auto 10px;
@@ -109,12 +105,8 @@ form label sup {
     -webkit-border-radius: 50%;
     border-radius: 50%;
 }
-.need-help
-{
-    margin-top: 10px;
-}
-.new-account
-{
+
+.new-account {
     display: block;
     margin-top: 10px;
 }
