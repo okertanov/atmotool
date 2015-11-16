@@ -27,6 +27,7 @@
     "mongoose": "^4.2.5",
     "nconf": "^0.8.2",
     "node-uuid": "^1.4.3",
-    "promise": "^7.0.4"
+    "promise": "^7.0.4",
+    "request": "^2.65.0"
   }
 }

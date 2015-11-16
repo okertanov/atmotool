@@ -16,37 +16,6 @@ form legend {
     margin-bottom: 2px !important;
 }
 
-form label span img {
-    margin-top: -14px;
-    width: 10px;
-    height: 10px;
-
-    -webkit-transition: -webkit-transform .5s ease-in-out;
-    transition: transform .5s ease-in-out;
-}
-
-form label span img:hover {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-}
-
-form label sup {
-    font-size: 80%;
-    color: #FFAF2F;
-}
-
-.strikeout {
-    text-decoration: line-through;
-}
-
-.ui-form-header {
-}
-
-.ui-form-header img {
-    margin-top: -4px;
-    margin-right: 6px;
-}
-
 /*Sign in form*/
 .form-signin {
     max-width: 330px;

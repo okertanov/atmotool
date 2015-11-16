@@ -3,6 +3,7 @@
   "use strict";
 
   var mongoose = require('mongoose');
+  var Config = require('./config/config');
 
   var MongooseManager = function () {
     console.log('Mongoose middleware initialization.');
@@ -14,11 +15,10 @@
         this._server = server;
         this._mongoose = mongoose;
 
-        var connectionString = this._server.Config().get('db:connectionString');
-        var options = this._server.Config().get('db:options');
+        var connectionString = Config('db:connectionString');
+        var options = Config('db:options');
 
         mongoose.connect(connectionString, options);
-
       }
     };
   };

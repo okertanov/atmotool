@@ -25,6 +25,8 @@
 
         this._server.App().use(this._oAuthMiddleware.OnError());
         this._server.App().post('/signin', this._oAuthMiddleware.SignIn());
+        this._server.App().get('/authenticate', this._oAuthMiddleware.Authenticate());
+        this._server.App().get('/exchange', this._oAuthMiddleware.Exchange());
 
       },
       GetRoot: function () {

@@ -21,5 +21,25 @@
       "httpOnly": true,
       "maxAge": null
     }
+  },
+  "oAuthSignIn": {
+    "grant_type": "password",
+    "client_id": "5640819f45a1e3438ac69f6f",
+    "client_secret": "YBaYU9HVWNc0Yk0o1OXwbE9OfOei96fxU3kcTJ3Mneu",
+    "scope": "read_station read_thermostat"
+  },
+  "oAuthAuthorizationCode": {
+    "client_id": "5640819f45a1e3438ac69f6f",
+    "scope": "read_station read_thermostat",
+    "state": "",
+    "redirect_uri": "http://127.0.0.1:3000/main.html"
+  },
+  "oAuthExchange": {
+    "grant_type": "authorization_code",
+    "client_id": "5640819f45a1e3438ac69f6f",
+    "client_secret": "YBaYU9HVWNc0Yk0o1OXwbE9OfOei96fxU3kcTJ3Mneu",
+    "scope": "read_station read_thermostat",
+    "code": "",
+    "redirect_uri": "http://127.0.0.1:3000/main.html"
   }
 }

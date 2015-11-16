@@ -6,10 +6,17 @@
 
   "use strict";
 
+  var Config = require('../config/config');
+
+  var UserService = require('../services/userService');
+  var OAuthService = require('../services/oAuthService');
+
   var OAuthMiddleware = function () {
     console.log('OAuth middleware initialization.');
     return {
       _server: null,
+      _userService: new UserService(),
+      _oAuthService: new OAuthService(),
 
       Initialize: function (server) {
         this._server = server;
@@ -26,7 +33,49 @@
       SignIn: function () {
         var that = this;
         return function (req, res, next) {
-          console.log(JSON.stringify(req.body));
+          that._userService.GetByEmail(req.body.email)
+              .then(function (user) {
+                if (!user) {
+
+                  var oAuthSignIn = Config('oAuthSignIn');
+                  oAuthSignIn.grant_type = "password";
+                  oAuthSignIn.username = req.body.email;
+                  oAuthSignIn.password = req.body.password;
+
+                  return that._oAuthService.SignIn(oAuthSignIn);
+                }
+                return user.authToken;
+              }).then(function (user) {
+                res.send(user);
+              });
+        }
+
+      },
+
+      Authenticate: function () {
+        var that = this;
+        return function (req, res, next) {
+
+          that._oAuthService.Authenticate()
+              .then(function (response) {
+                var redirectUri = response.request.uri.href;
+                res.redirect(redirectUri);
+              });
+        }
+      },
+
+      Exchange: function (state, generated) {
+        var that = this;
+        return function (req, res, next) {
+
+          var oAuthExchange = Config('oAuthExchange');
+          oAuthExchange.code = generated;
+
+          that._oAuthService.Exchange()
+              .then(function (response) {
+
+                res.send(200);
+              });
         }
       },
 
@@ -46,3 +95,10 @@
   module.exports = OAuthMiddleware;
 
 })();
+
+/*
+ var newUser = {
+ "username": req.body.email,
+ "email": req.body.email,
+ "authToken": oAuthToken
+ }*/
