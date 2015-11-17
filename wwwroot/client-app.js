@@ -15,16 +15,7 @@
     }
   });
 
-})(jQuery, (typeof exports !== 'undefined' ? exports : this['atmotool'] = {
-
-  authorize: function () {
-
-    $.get('/authenticate', function (data) {
-
-      console.log(data)
-
-    });
-
-  }
-
-}));
+})(
+    jQuery,
+    (typeof exports !== 'undefined' ? exports : this['atmotool'] = {})
+);

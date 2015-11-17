@@ -6,6 +6,8 @@
 
   "use strict";
 
+  var uuid = require('node-uuid');
+
   var Config = require('../config/config');
 
   var UserService = require('../services/userService');
@@ -56,25 +58,30 @@
         var that = this;
         return function (req, res, next) {
 
-          that._oAuthService.Authenticate()
+          var state = uuid.v1();
+
+          var oAuthObject = Config('oAuthAuthenticate');
+          oAuthObject.state = state;
+
+          that._oAuthService.Authenticate(oAuthObject)
               .then(function (response) {
+
                 var redirectUri = response.request.uri.href;
                 res.redirect(redirectUri);
               });
         }
       },
 
-      Exchange: function (state, generated) {
+      Callback: function (state, generated) {
         var that = this;
         return function (req, res, next) {
 
           var oAuthExchange = Config('oAuthExchange');
           oAuthExchange.code = generated;
 
-          that._oAuthService.Exchange()
-              .then(function (response) {
-
-                res.send(200);
+          that._oAuthService.Callback(oAuthExchange)
+              .then(function (oAuthToken) {
+                res.send(200, oAuthToken);
               });
         }
       },
@@ -96,9 +103,4 @@
 
 })();
 
-/*
- var newUser = {
- "username": req.body.email,
- "email": req.body.email,
- "authToken": oAuthToken
- }*/
+
