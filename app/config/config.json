@@ -39,6 +39,6 @@
     "client_secret": "YBaYU9HVWNc0Yk0o1OXwbE9OfOei96fxU3kcTJ3Mneu",
     "scope": "read_station read_thermostat",
     "code": "",
-    "redirect_uri": "http://127.0.0.1:3000/callback"
+    "redirect_uri": "http://localhost:3000/callback"
   }
 }

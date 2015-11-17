@@ -4,6 +4,7 @@
 
   var express = require('express');
   var path = require('path');
+  var cors = require('cors');
 
   var OAuthMiddleware = require('./oAuthmiddleware');
 
@@ -17,19 +18,17 @@
         this._server = server;
         this._oAuthMiddleware.Initialize(server);
 
-        this._server.App().use(this.AllowNetatmoCrossDomain());
-
         this._server.App().all('*', this._oAuthMiddleware.AllRequests());
         this._server.App().get('/', this.GetRoot());
-
-
-
         this._server.App().use(express.static(path.resolve('wwwroot')));
-        this._server.App().use(this.OnError());
 
+        this._server.App().use(this.OnError());
         this._server.App().use(this._oAuthMiddleware.OnError());
+
         this._server.App().post('/signin', this._oAuthMiddleware.SignIn());
-        this._server.App().get('/authenticate', this._oAuthMiddleware.Authenticate());
+
+        this._server.App().get('/authenticate', cors({origin: 'http://localhost:3000'}), this._oAuthMiddleware.Authenticate());
+
         this._server.App().get('/callback', this._oAuthMiddleware.Callback());
 
       },
@@ -38,14 +37,6 @@
         return function (req, res, next) {
           console.log('Request: ', req.path, req.ip);
           res.sendStatus(403);
-        }
-      },
-
-      AllowNetatmoCrossDomain: function () {
-        return function (req, res, next) {
-          res.header('Access-Control-Allow-Origin', 'https://auth.netatmo.com');
-          res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-          next();
         }
       },
 

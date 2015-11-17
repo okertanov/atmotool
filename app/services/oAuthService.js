@@ -31,28 +31,6 @@
         return promise;
       },
 
-      Authenticate: function (oAuthObject) {
-        var promise = new Promise(function (resolve, reject) {
-          try {
-            request({
-              url: ' https://api.netatmo.net/oauth2/authorize',
-              qs: oAuthObject,
-              method: 'GET',
-            }, function (err, response) {
-              if (err) {
-                reject(err);
-              }
-              resolve(response);
-            });
-          }
-          catch (e) {
-            reject(e);
-          }
-        });
-        return promise;
-
-      },
-
       Callback: function (oAuthExchange) {
 
         var promise = new Promise(function (resolve, reject) {

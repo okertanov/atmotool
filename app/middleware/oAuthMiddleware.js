@@ -7,6 +7,7 @@
   "use strict";
 
   var uuid = require('node-uuid');
+  var querystring = require('querystring');
 
   var Config = require('../config/config');
 
@@ -58,17 +59,13 @@
         var that = this;
         return function (req, res, next) {
 
-          var state = uuid.v1();
-
           var oAuthObject = Config('oAuthAuthenticate');
-          oAuthObject.state = state;
+          oAuthObject.state = uuid.v1();
+          var qs = querystring.stringify(oAuthObject);
 
-          that._oAuthService.Authenticate(oAuthObject)
-              .then(function (response) {
+          var redirectUri = 'https://api.netatmo.net/oauth2/authorize?' + qs;
 
-                var redirectUri = response.request.uri.href;
-                res.redirect(redirectUri);
-              });
+          res.redirect(redirectUri);
         }
       },
 
