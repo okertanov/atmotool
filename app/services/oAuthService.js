@@ -2,15 +2,31 @@
 
   "use strict";
 
+  var uuid = require('node-uuid');
+  var querystring = require('querystring');
   var request = require('request');
+
+  var Config = require('../config/config');
 
   var OAuthService = function () {
 
     return {
 
-      GetAuthUrl: function () {
+      GetOAuthRedirectObject: function (host) {
         var authUrl = 'https://api.netatmo.net/oauth2/authorize?';
-        return authUrl;
+
+        var oAuthObject = Config('oAuthAuthenticate');
+        oAuthObject.state = uuid.v1();
+        oAuthObject.redirect_uri = 'http://' + host + '/callback';
+
+        var redirectUri = authUrl + querystring.stringify(oAuthObject);
+
+        var oAuthRedirectObject = {
+          'oauth_state': oAuthObject.state,
+          'oauth_redirect': redirectUri
+        };
+
+        return oAuthRedirectObject;
       },
 
       SignIn: function (oAuthSignIn) {

@@ -54,25 +54,7 @@
       Authenticate: function () {
         var that = this;
         return function (req, res, next) {
-
-          var oAuthObject = Config('oAuthAuthenticate');
-
-          oAuthObject.state = uuid.v1();
-          oAuthObject.redirect_uri = 'http://' + req.headers.host + '/callback';
-
-          var qs = querystring.stringify(oAuthObject);
-
-          var authApiUrl = that._oAuthService.GetAuthUrl();
-          var redirectUri = authApiUrl + qs;
-
-          console.log('Redirecting to:', redirectUri);
-
-          var oAuthRedirectObject = {
-            'oauth_state': oAuthObject.state,
-            'oauth_endpoint': authApiUrl,
-            'oauth_redirect': redirectUri
-          };
-
+          var oAuthRedirectObject = that._oAuthService.GetOAuthRedirectObject(req.headers.host);
           res.json(oAuthRedirectObject);
         }
       },
