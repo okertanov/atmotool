@@ -7,7 +7,7 @@
   var cookie_parser = require('cookie-parser');
 
   var RoutesMiddleware = require('./routesMiddleware');
-  var MongooseManager = require('../mongooseManager');
+  //var MongooseManager = require('../mongooseManager');
 
   var MainMiddleware = function () {
     console.log('Main middleware initialization.');
@@ -15,7 +15,7 @@
       _server: null,
 
       _routesMiddleware: new RoutesMiddleware(),
-      _mongooseManager: new MongooseManager(),
+      //_mongooseManager: new MongooseManager(),
 
       Initialize: function (server) {
         this._server = server;

@@ -33,21 +33,17 @@
         var that = this;
         return function (req, res, next) {
 
-          var oAuthSignIn = Config('oAuthSignIn');
-          oAuthSignIn.grant_type = "password";
-          oAuthSignIn.username = req.body.email;
-          oAuthSignIn.password = req.body.password;
+          var promise = that._userService.GetByEmail(req.body.email);
 
-          that._oAuthService.SignIn(oAuthSignIn)
-              .then(function (authToken) {
-                if (authToken) {
-                  res.status(200).json(JSON.parse(authToken));
-                }
-                res.send(401);
-              }).catch(function (reason) {
-                console.err('Access Token receiving error:', reason ? reason : "");
-                res.status(401).json(reason);
-              })
+          promise.then(function (err, user) {
+            if (err) {
+              console.log(err);
+            }
+            if (user) {
+              res.sendStatus(200).json(user);
+            }
+            res.sendStatus(404);
+          });
 
         }
       },

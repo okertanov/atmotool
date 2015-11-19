@@ -19,24 +19,7 @@
       },
 
       GetByEmail: function (email) {
-        var that = this;
-        var promise = new Promise(function (resolve, reject) {
-          try {
-            that._userModel.Model()
-                .findOne({email: email},
-                function (err, doc) {
-
-                  if (err) {
-                    reject(err);
-                  }
-
-                  resolve(doc);
-                });
-          }
-          catch (e) {
-            reject(e);
-          }
-        });
+        var promise = this._userModel.Model().findOne({email: email}).exec();
         return promise;
       }
 
