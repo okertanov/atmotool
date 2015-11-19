@@ -21,6 +21,6 @@ Deployment & Running
 Links
 -----
 [Netatmo for developers](https://dev.netatmo.com/doc)  
-[Node.js](https://nodejs.org/en/docs/)
-[Express.js](http://expressjs.com/4x/api.html)
+[Node.js](https://nodejs.org/en/docs/)  
+[Express.js](http://expressjs.com/4x/api.html)  
 [MongoDb](https://www.mongodb.org/)  
