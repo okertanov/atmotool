@@ -7,7 +7,6 @@
   var cookie_parser = require('cookie-parser');
 
   var RoutesMiddleware = require('./routesMiddleware');
-  //var MongooseManager = require('../mongooseManager');
 
   var MainMiddleware = function () {
     console.log('Main middleware initialization.');
@@ -26,7 +25,6 @@
 
         this._routesMiddleware.Initialize(server);
 
-        //this._mongooseManager.Initialize(server);
       }
     };
   };

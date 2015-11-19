@@ -7,7 +7,6 @@
 
   var Config = require('../config/config');
 
-  //var UserService = require('../services/userService');
   var OAuthService = require('../services/oAuthService');
   var NetatmoService = require('../services/NetatmoService');
 
@@ -15,7 +14,6 @@
     console.log('OAuth middleware initialization.');
     return {
       _server: null,
-      //_userService: new UserService(),
       _oAuthService: new OAuthService(),
       _netatmoService: new NetatmoService(),
 
@@ -96,7 +94,6 @@
                 console.log('Access Token received:', accessToken);
 
                 var cookieOptions = that.MakeCookie(accessToken);
-
                 res.cookie('atmotool', cookieOptions);
 
                 that._netatmoService.GetUser(accessToken.access_token)

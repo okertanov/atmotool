@@ -19,13 +19,10 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.14.1",
-    "connect-mongo": "^0.8.2",
     "cookie-parser": "^1.4.0",
     "cors": "^2.7.1",
     "express": "^4.13.3",
     "handlebars": "^4.0.4",
-    "mongodb": "^2.0.48",
-    "mongoose": "^4.2.5",
     "nconf": "^0.8.2",
     "node-uuid": "^1.4.7",
     "promise": "^7.0.4",
