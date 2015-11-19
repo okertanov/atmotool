@@ -19,8 +19,13 @@
       },
 
       GetByEmail: function (email) {
-        var promise = this._userModel.Model().findOne({email: email}).exec();
-        return promise;
+        this._userModel.Model().findOne({email: email})
+            .exec(function (err, user) {
+              if (err) {
+                return undefined;
+              }
+              return user;
+            });
       }
 
     };

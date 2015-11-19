@@ -7,15 +7,17 @@
 
   var Config = require('../config/config');
 
-  var UserService = require('../services/userService');
+  //var UserService = require('../services/userService');
   var OAuthService = require('../services/oAuthService');
+  var NetatmoService = require('../services/NetatmoService');
 
   var OAuthMiddleware = function () {
     console.log('OAuth middleware initialization.');
     return {
       _server: null,
-      _userService: new UserService(),
+      //_userService: new UserService(),
       _oAuthService: new OAuthService(),
+      _netatmoService: new NetatmoService(),
 
       Initialize: function (server) {
         this._server = server;
@@ -33,18 +35,21 @@
         var that = this;
         return function (req, res, next) {
 
-          var promise = that._userService.GetByEmail(req.body.email);
+          var oAuthSignIn = Config('oAuthSignIn');
+          oAuthSignIn.grant_type = "password";
+          oAuthSignIn.username = req.body.email;
+          oAuthSignIn.password = req.body.password;
 
-          promise.then(function (err, user) {
-            if (err) {
-              console.log(err);
-            }
-            if (user) {
-              res.sendStatus(200).json(user);
-            }
-            res.sendStatus(404);
-          });
-
+          that._oAuthService.SignIn(oAuthSignIn)
+              .then(function (authToken) {
+                if (authToken) {
+                  res.status(200).json(JSON.parse(authToken));
+                }
+                res.send(401);
+              }).catch(function (reason) {
+                console.err('Access Token receiving error:', reason);
+                res.status(401).json(reason);
+              })
         }
       },
 
@@ -82,7 +87,6 @@
 
           var oAuthExchange = Config('oAuthExchange');
           oAuthExchange.code = code;
-
           oAuthExchange.redirect_uri = 'http://' + req.headers.host + '/callback';
 
           console.log('Getting Access Code with:', oAuthExchange);
@@ -90,13 +94,29 @@
           that._oAuthService.GetAccessToken(oAuthExchange)
               .then(function (accessToken) {
                 console.log('Access Token received:', accessToken);
-                res.status(200).json(accessToken);
+
+                var cookieOptions = that.MakeCookie(accessToken);
+
+                res.cookie('atmotool', cookieOptions);
+
+                that._netatmoService.GetUser(accessToken.access_token)
+                    .then(function (user) {
+                      res.status(200).json(user);
+                    });
+
               })
               .catch(function (reason) {
                 console.err('Access Token receiving error:', reason);
                 res.status(401).json(reason);
               });
         }
+      },
+
+      MakeCookie: function (accessToken) {
+        return {
+          access_token: accessToken.access_token,
+          expires_in: new Date(Date.now() + accessToken.expires_in * 1000)
+        };
       },
 
       OnError: function () {
@@ -109,9 +129,6 @@
     };
   };
 
-  //
-  // Module Exports
-  //
   module.exports = OAuthMiddleware;
 
 })();

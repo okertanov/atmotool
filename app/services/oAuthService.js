@@ -8,6 +8,11 @@
 
     return {
 
+      GetAuthUrl: function () {
+        var authUrl = 'https://api.netatmo.net/oauth2/authorize?';
+        return authUrl;
+      },
+
       SignIn: function (oAuthSignIn) {
         var promise = new Promise(function (resolve, reject) {
           try {
@@ -28,11 +33,6 @@
           }
         });
         return promise;
-      },
-
-      GetAuthUrl: function () {
-        var authUrl = 'https://api.netatmo.net/oauth2/authorize?';
-        return authUrl;
       },
 
       GetAccessToken: function (oAuthExchange) {
