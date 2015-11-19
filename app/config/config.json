@@ -24,20 +24,20 @@
   },
   "oAuthSignIn": {
     "grant_type": "password",
-    "client_id": "5640819f45a1e3438ac69f6f",
-    "client_secret": "YBaYU9HVWNc0Yk0o1OXwbE9OfOei96fxU3kcTJ3Mneu",
+    "client_id": "",
+    "client_secret": "",
     "scope": "read_station read_thermostat"
   },
   "oAuthAuthenticate": {
-    "client_id": "5640819f45a1e3438ac69f6f",
+    "client_id": "",
     "redirect_uri": "",
     "scope": "read_station read_thermostat",
     "state": ""
   },
   "oAuthExchange": {
     "grant_type": "authorization_code",
-    "client_id": "5640819f45a1e3438ac69f6f",
-    "client_secret": "YBaYU9HVWNc0Yk0o1OXwbE9OfOei96fxU3kcTJ3Mneu",
+    "client_id": "",
+    "client_secret": "",
     "scope": "read_station read_thermostat",
     "code": "",
     "redirect_uri": ""
