@@ -6,7 +6,7 @@
   var path = require('path');
   var cors = require('cors');
 
-  var OAuthMiddleware = require('./oAuthmiddleware');
+  var OAuthMiddleware = require('./oAuthMiddleware');
 
   var Routes = function () {
     console.log('Routes middleware initialization.');
@@ -27,8 +27,7 @@
 
         this._server.App().post('/signin', this._oAuthMiddleware.SignIn());
 
-        this._server.App().get('/authenticate', cors({origin: 'http://localhost:3000'}), this._oAuthMiddleware.Authenticate());
-
+        this._server.App().get('/authenticate', cors({origin: '*'}), this._oAuthMiddleware.Authenticate());
         this._server.App().get('/callback', this._oAuthMiddleware.Callback());
 
       },

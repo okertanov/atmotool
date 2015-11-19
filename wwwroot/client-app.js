@@ -15,23 +15,24 @@
     }
   });
 
+  exports.authenticate = function authenticate() {
+    $.get('/authenticate')
+        .done(function (data, status, defered) {
+          console.log('Authenticate Request data:', data, defered);
+          var redirectUri = data.oauth_redirect;
+
+          if (redirectUri) {
+            atmotool.navigate(redirectUri);
+          }
+          console.log('Navigated to:', redirectUri);
+        })
+        .fail(function (status) {
+          console.log('Authenticate Request failed:', status);
+        });
+  };
+
+  exports.navigate = function navigate(url) {
+    window.location = url || '#';
+  };
+
 })(jQuery, (typeof exports !== 'undefined' ? exports : this['atmotool'] = {}));
-
-function authenticate() {
-
-  $.ajax({
-    url: '/authenticate',
-    method: 'POST',
-    success: function (data, status) {
-      console.log('Status: ', status);
-      console.log('Data: ', data);
-      $scope.serverData = data.data;
-    },
-    error: function (data, status) {
-      console.log('Status: ', status);
-      console.log('Data: ', data || 'Request failed');
-    }
-
-  });
-
-}

@@ -1,7 +1,3 @@
-//
-// AuthMiddleware.js
-//
-
 (function () {
 
   "use strict";
@@ -36,23 +32,24 @@
       SignIn: function () {
         var that = this;
         return function (req, res, next) {
-          that._userService.GetByEmail(req.body.email)
-              .then(function (user) {
-                if (!user) {
 
-                  var oAuthSignIn = Config('oAuthSignIn');
-                  oAuthSignIn.grant_type = "password";
-                  oAuthSignIn.username = req.body.email;
-                  oAuthSignIn.password = req.body.password;
+          var oAuthSignIn = Config('oAuthSignIn');
+          oAuthSignIn.grant_type = "password";
+          oAuthSignIn.username = req.body.email;
+          oAuthSignIn.password = req.body.password;
 
-                  return that._oAuthService.SignIn(oAuthSignIn);
+          that._oAuthService.SignIn(oAuthSignIn)
+              .then(function (authToken) {
+                if (authToken) {
+                  res.status(200).json(JSON.parse(authToken));
                 }
-                return user.authToken;
-              }).then(function (user) {
-                res.send(user);
-              });
-        }
+                res.send(401);
+              }).catch(function (reason) {
+                console.err('Access Token receiving error:', reason ? reason : "");
+                res.status(401).json(reason);
+              })
 
+        }
       },
 
       Authenticate: function () {
@@ -60,25 +57,48 @@
         return function (req, res, next) {
 
           var oAuthObject = Config('oAuthAuthenticate');
+
           oAuthObject.state = uuid.v1();
+          oAuthObject.redirect_uri = 'http://' + req.headers.host + '/callback';
+
           var qs = querystring.stringify(oAuthObject);
 
-          var redirectUri = 'https://api.netatmo.net/oauth2/authorize?' + qs;
+          var authApiUrl = that._oAuthService.GetAuthUrl();
+          var redirectUri = authApiUrl + qs;
 
-          res.redirect(redirectUri);
+          console.log('Redirecting to:', redirectUri);
+
+          var oAuthRedirectObject = {
+            'oauth_state': oAuthObject.state,
+            'oauth_endpoint': authApiUrl,
+            'oauth_redirect': redirectUri
+          };
+
+          res.json(oAuthRedirectObject);
         }
       },
 
-      Callback: function (state, generated) {
+      Callback: function () {
         var that = this;
         return function (req, res, next) {
+          var code = req.query.code || '';
+          var state = req.query.state || '';
 
           var oAuthExchange = Config('oAuthExchange');
-          oAuthExchange.code = generated;
+          oAuthExchange.code = code;
 
-          that._oAuthService.Callback(oAuthExchange)
-              .then(function (oAuthToken) {
-                res.send(200, oAuthToken);
+          oAuthExchange.redirect_uri = 'http://' + req.headers.host + '/callback';
+
+          console.log('Getting Access Code with:', oAuthExchange);
+
+          that._oAuthService.GetAccessToken(oAuthExchange)
+              .then(function (accessToken) {
+                console.log('Access Token received:', accessToken);
+                res.status(200).json(accessToken);
+              })
+              .catch(function (reason) {
+                console.err('Access Token receiving error:', reason);
+                res.status(401).json(reason);
               });
         }
       },
@@ -99,5 +119,3 @@
   module.exports = OAuthMiddleware;
 
 })();
-
-

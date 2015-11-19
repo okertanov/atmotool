@@ -25,7 +25,8 @@
         this._server.App().use(body_parser.urlencoded({extended: true}));
 
         this._routesMiddleware.Initialize(server);
-        this._mongooseManager.Initialize(server);
+
+        //this._mongooseManager.Initialize(server);
       }
     };
   };
