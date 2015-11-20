@@ -16,16 +16,44 @@
     return {
       _oAuthService: new OAuthService(),
       _netatmoService: new NetatmoService(),
-
+      _indexPage: '/index.html',
+      _authPage: '/auth.html',
       Initialize: function () {
       },
 
+      IndexRequest: function () {
+        var that = this;
+        return function (req, res, next) {
+          that.AllRequests()(req, res, next);
+        };
+      },
       AllRequests: function () {
         var that = this;
         return function (req, res, next) {
           console.log('Auth: ', req.path, req.ip);
-          next();
+
+          var cookie = req.cookies.atmotool;
+          if (cookie) {
+            that._netatmoService.GetUser(cookie.access_token)
+                .then(function (user) {
+                  if (user) {
+                    next();
+                  }
+                  else {
+                    res.redirect(that._authPage);
+                  }
+                });
+          } else {
+            res.redirect(that._authPage);
+          }
+
         };
+      },
+
+      Me: function () {
+        var that = this;
+        return function (req, res, next) {
+        }
       },
 
       SignIn: function () {
@@ -40,9 +68,14 @@
           that._oAuthService.SignIn(oAuthSignIn)
               .then(function (authToken) {
                 if (authToken) {
-                  res.status(200).json(JSON.parse(authToken));
+                  var parsedToken = JSON.parse(authToken);
+                  if (parsedToken.error) {
+                    console.warn('SignIn silent error:', parsedToken);
+                    res.status(401).json(parsedToken);
+                  }
+                  res.status(200).json(parsedToken);
                 }
-                res.send(401);
+                res.status(401).json({msg: 'Unknown reason'});
               }).catch(function (reason) {
                 console.err('Access Token receiving error:', reason);
                 res.status(401).json(reason);
