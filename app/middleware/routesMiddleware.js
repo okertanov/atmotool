@@ -26,6 +26,7 @@
         this._server.App().post('/signin', this._oAuthMiddleware.SignIn());
         this._server.App().get('/authenticate', cors({origin: '*'}), this._oAuthMiddleware.Authenticate());
         this._server.App().get('/callback', this._oAuthMiddleware.Callback());
+        this._server.App().get('/refresh', this._oAuthMiddleware.RefreshToken());        
         this._server.App().all('*', this._oAuthMiddleware.AllRequests());
 
         this._server.App().use(this.OnError());
