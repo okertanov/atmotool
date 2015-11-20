@@ -9,29 +9,31 @@
   $(function () {
     try {
       console.log('Initializing...');
+
+      $("#ui-auth-btn").click(authenticate);
     }
     catch (e) {
       console.log(e, e.toString());
     }
   });
 
-  exports.authenticate = function authenticate() {
+  var authenticate = function authenticate() {
     $.get('/authenticate')
-        .done(function (data, status, defered) {
-          console.log('Authenticate Request data:', data, defered);
-          var redirectUri = data.oauth_redirect;
+      .done(function (data, status, defered) {
+        console.log('Authenticate Request data:', data, defered);
+        var redirectUri = data.oauth_redirect;
 
-          if (redirectUri) {
-            atmotool.navigate(redirectUri);
-          }
-          console.log('Navigated to:', redirectUri);
-        })
-        .fail(function (status) {
-          console.log('Authenticate Request failed:', status);
-        });
+        if (redirectUri) {
+          navigate(redirectUri);
+        }
+        console.log('Navigated to:', redirectUri);
+      })
+      .fail(function (status) {
+        console.log('Authenticate Request failed:', status);
+      });
   };
 
-  exports.navigate = function navigate(url) {
+  var navigate = function navigate(url) {
     window.location = url || '#';
   };
 

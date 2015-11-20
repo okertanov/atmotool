@@ -13,29 +13,32 @@
     return {
       _server: null,
       _oAuthMiddleware: new OAuthMiddleware(),
+      _rootName: '/',
+      _indexName: '/index.html',
 
       Initialize: function (server) {
         this._server = server;
         this._oAuthMiddleware.Initialize(server);
 
-        this._server.App().all('*', this._oAuthMiddleware.AllRequests());
-        this._server.App().get('/', this.GetRoot());
+        this._server.App().get(this._rootName, this.GetRoot());
+        this._server.App().get(this._indexName, this._oAuthMiddleware.IndexRequest());
         this._server.App().use(express.static(path.resolve('wwwroot')));
+         this._server.App().post('/signin', this._oAuthMiddleware.SignIn());
+        this._server.App().get('/authenticate', cors({origin: '*'}), this._oAuthMiddleware.Authenticate());
+        this._server.App().get('/callback', this._oAuthMiddleware.Callback());
+        this._server.App().all('*', this._oAuthMiddleware.AllRequests());
 
         this._server.App().use(this.OnError());
         this._server.App().use(this._oAuthMiddleware.OnError());
 
-        this._server.App().post('/signin', this._oAuthMiddleware.SignIn());
-
-        this._server.App().get('/authenticate', cors({origin: '*'}), this._oAuthMiddleware.Authenticate());
-        this._server.App().get('/callback', this._oAuthMiddleware.Callback());
-
+        this._server.App().post('/me', this._oAuthMiddleware.Me());
       },
+
       GetRoot: function () {
         var that = this;
         return function (req, res, next) {
           console.log('Request: ', req.path, req.ip);
-          res.sendStatus(403);
+          res.redirect(that._indexName);
         }
       },
 
