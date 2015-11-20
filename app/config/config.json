@@ -24,22 +24,21 @@
   },
   "oAuthSignIn": {
     "grant_type": "password",
-    "client_id": "",
-    "client_secret": "",
-    "scope": "read_station read_thermostat"
+    "scope": "read_station"
   },
   "oAuthAuthenticate": {
-    "client_id": "",
     "redirect_uri": "",
-    "scope": "read_station read_thermostat",
+    "scope": "read_station",
     "state": ""
   },
   "oAuthExchange": {
     "grant_type": "authorization_code",
-    "client_id": "",
-    "client_secret": "",
-    "scope": "read_station read_thermostat",
+    "scope": "read_station",
     "code": "",
     "redirect_uri": ""
+  },
+  "oAuthRefresh":{
+    "grant_type": "refresh_token",
+    "refresh_token": ""
   }
 }

@@ -77,6 +77,36 @@
           }
         });
         return promise;
+      },
+
+      RefreshToken: function(oAuthRefresh){
+
+        var promise = new Promise(function (resolve, reject) {
+          try {
+            request.post({
+                  url: 'https://api.netatmo.net/oauth2/token',
+                  json: true,
+                  headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                  },
+                  form: oAuthRefresh
+                },
+                function (err, resp, body) {
+                  if (err) {
+                    reject(err);
+                  }
+                  resolve(body);
+                }
+            );
+          }
+          catch (e) {
+            reject(e);
+          }
+        });
+        return promise;
+
+
+
       }
 
     };

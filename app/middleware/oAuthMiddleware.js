@@ -4,6 +4,7 @@
 
   var uuid = require('node-uuid');
   var querystring = require('querystring');
+  var path = require('path');
 
   var Config = require('../config/config');
 
@@ -13,20 +14,43 @@
   var OAuthMiddleware = function () {
     console.log('OAuth middleware initialization.');
     return {
-      _server: null,
       _oAuthService: new OAuthService(),
       _netatmoService: new NetatmoService(),
 
-      Initialize: function (server) {
-        this._server = server;
+      Initialize: function () {
       },
 
       AllRequests: function () {
         var that = this;
         return function (req, res, next) {
           console.log('Auth: ', req.path, req.ip);
-          next();
-        }
+
+          if (req.path == '/auth.html') {
+
+            var path = path.resolve('wwwroot') + '/auth.html';
+
+            res.sendfile(path);
+
+          }
+
+          var cookie = req.cookies.atmotool;
+
+          if (cookie) {
+            that._netatmoService.GetUser(cookie.access_token)
+                .then(function (user) {
+                  if (user) {
+                    next();
+                  }
+                  else {
+                    var path = path.resolve('wwwroot') + '/auth.html';
+                    res.sendfile(path);
+                  }
+                });
+          } else {
+            var path = path.resolve('wwwroot') + '/auth.html';
+            res.sendfile(path);
+          }
+        };
       },
 
       SignIn: function () {
@@ -69,32 +93,58 @@
           oAuthExchange.code = code;
           oAuthExchange.redirect_uri = 'http://' + req.headers.host + '/callback';
 
-          console.log('Getting Access Code with:', oAuthExchange);
-
           that._oAuthService.GetAccessToken(oAuthExchange)
               .then(function (accessToken) {
-                console.log('Access Token received:', accessToken);
 
                 var cookieOptions = that.MakeCookie(accessToken);
                 res.cookie('atmotool', cookieOptions);
 
                 that._netatmoService.GetUser(accessToken.access_token)
                     .then(function (user) {
-                      res.status(200).json(user);
+                      res.status(200);
                     });
 
               })
               .catch(function (reason) {
-                console.err('Access Token receiving error:', reason);
+                res.clearCookie('atmotool');
                 res.status(401).json(reason);
               });
         }
       },
 
+      RefreshToken: function () {
+        var that = this;
+        return function (req, res, next) {
+
+          var oAuthRefresh = Config('oAuthRefresh');
+          oAuthRefresh.refresh_token = req.cookies.refresh_token;
+
+          that._oAuthService.RefreshToken(oAuthRefresh)
+              .then(function (accessToken) {
+
+                res.clearCookie('atmotool');
+                var cookieOptions = that.MakeCookie(accessToken);
+                res.cookie('atmotool', cookieOptions);
+
+                that._netatmoService.GetUser(accessToken.access_token)
+                    .then(function (user) {
+                      res.status(200);
+                    });
+
+              })
+              .catch(function (reason) {
+                res.clearCookie('atmotool');
+                res.status(401).json(reason);
+              });
+        }
+
+      },
+
       MakeCookie: function (accessToken) {
         return {
           access_token: accessToken.access_token,
-          expires_in: new Date(Date.now() + accessToken.expires_in * 1000)
+          refresh_token: accessToken.refresh_token,
+          expires: new Date(Date.now() + accessToken.expires_in * 1000)
         };
       },
 
