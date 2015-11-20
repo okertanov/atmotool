@@ -79,7 +79,7 @@
         return promise;
       },
 
-      RefreshToken: function(oAuthRefresh){
+      RefreshToken: function (oAuthRefresh) {
 
         var promise = new Promise(function (resolve, reject) {
           try {
@@ -104,8 +104,6 @@
           }
         });
         return promise;
-
-
 
       }
 

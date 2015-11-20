@@ -25,6 +25,7 @@
     "handlebars": "^4.0.4",
     "nconf": "^0.8.2",
     "node-uuid": "^1.4.7",
+    "path": "^0.12.7",
     "promise": "^7.0.4",
     "request": "^2.65.0"
   }

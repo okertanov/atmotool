@@ -31,7 +31,7 @@
         var that = this;
         return function (req, res, next) {
           console.log('Auth: ', req.path, req.ip);
-          
+
           var cookie = req.cookies.atmotool;
           if (cookie) {
             that._netatmoService.GetUser(cookie.access_token)
@@ -103,12 +103,15 @@
           that._oAuthService.GetAccessToken(oAuthExchange)
               .then(function (accessToken) {
 
-                var cookieOptions = that.MakeCookie(accessToken);
-                res.cookie('atmotool', cookieOptions);
-
                 that._netatmoService.GetUser(accessToken.access_token)
                     .then(function (user) {
-                      res.status(200);
+
+                      if (user) {
+                        var cookieOptions = that.MakeCookie(accessToken);
+                        res.cookie('atmotool', cookieOptions);
+                        res.sendStatus(200);
+                      }
+
                     });
 
               })
@@ -123,8 +126,12 @@
         var that = this;
         return function (req, res, next) {
 
+          if (!req.cookies.atmotool) {
+            res.sendStatus(401);
+          }
+
           var oAuthRefresh = Config('oAuthRefresh');
-          oAuthRefresh.refresh_token = req.cookies.refresh_token;
+          oAuthRefresh.refresh_token = req.cookies.atmotool.refresh_token;
 
           that._oAuthService.RefreshToken(oAuthRefresh)
               .then(function (accessToken) {
@@ -135,7 +142,7 @@
 
                 that._netatmoService.GetUser(accessToken.access_token)
                     .then(function (user) {
-                      res.status(200);
+                      res.sendStatus(200);
                     });
 
               })
